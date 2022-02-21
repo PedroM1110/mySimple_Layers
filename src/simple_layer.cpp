@@ -23,7 +23,7 @@
 PLUGINLIB_EXPORT_CLASS(simple_layer_namespace::SimpleLayer, costmap_2d::Layer)//Register plug-in
   
 using costmap_2d::LETHAL_OBSTACLE;  
-
+using costmap_2d::FREE_SPACE; 
   
 namespace simple_layer_namespace  
 {  
