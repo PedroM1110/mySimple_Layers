@@ -11,13 +11,14 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose.h>
 #include <nav_msgs/Odometry.h>
-#include "std_msgs/String.h"
+#include "std_msgs/UInt8MultiArray.h"
 #include <dynamic_reconfigure/DoubleParameter.h>
 #include <dynamic_reconfigure/Reconfigure.h>
 #include <dynamic_reconfigure/Config.h>
 #include <pthread.h>
 #include <base_local_planner/goal_functions.h>
 #include <nav_msgs/Path.h>
+
 
 
 
@@ -31,7 +32,7 @@ namespace simple_layer_namespace
     	public:  
       		SimpleLayer();
       		
-      		void callback(const std_msgs::String::ConstPtr& msg);
+      		void callback(const std_msgs::UInt8MultiArray::ConstPtr& array);
 		
 			ros::Subscriber sub;
       
@@ -48,10 +49,12 @@ namespace simple_layer_namespace
       		void reconfigureCB(costmap_2d::GenericPluginConfig &config, uint32_t level);
 
       		double mark_x_, mark_y_;
+            
+            unsigned int place_1, place_2, place_3, place_4; 
 		
-			unsigned int mx[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+			unsigned int mx[384];
   
-       		unsigned int my[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+       		unsigned int my[608];
 		
 			pthread_mutex_t mutex; 
       

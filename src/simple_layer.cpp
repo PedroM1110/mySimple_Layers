@@ -7,7 +7,7 @@
 #include <nav_msgs/Odometry.h>
 #include <costmap_2d/layer.h>  
 #include <costmap_2d/layered_costmap.h> 
-#include "std_msgs/String.h"
+#include "std_msgs/UInt8MultiArray.h"
 #include "std_msgs/Int8.h"
 #include <string>
 #include <dynamic_reconfigure/DoubleParameter.h>
@@ -17,6 +17,8 @@
 #include <pthread.h>
 #include <base_local_planner/goal_functions.h>
 #include <nav_msgs/Path.h>
+
+
 
 
   
@@ -43,7 +45,6 @@ void SimpleLayer::onInitialize()
 	
   current_ = true;								
   
-  
   dsrv_ = new dynamic_reconfigure::Server<costmap_2d::GenericPluginConfig>(nh);
   
   dynamic_reconfigure::Server<costmap_2d::GenericPluginConfig>::CallbackType cb = boost::bind( &SimpleLayer::reconfigureCB, this, _1, _2);
@@ -55,33 +56,15 @@ void SimpleLayer::onInitialize()
   
 
 	
-void SimpleLayer::callback(const std_msgs::String::ConstPtr& msg){
+void SimpleLayer::callback(const std_msgs::UInt8MultiArray::ConstPtr& array){
   
-	
-	ROS_INFO("Zona %s", msg->data.c_str());
+	ROS_INFO("Zonas: %d, %d, %d, %d", array->data[0],array->data[1],array->data[2],array->data[3]);
 
-  pthread_mutex_lock(&mutex);
-  mx[0] = 200;
-	my[0] = 200;
-	
-	if(strcmp(msg->data.c_str(),"1")==0){
+	place_1 = array->data[0];
+  place_2 = array->data[1];
+  place_3 = array->data[2];
+  place_4 = array->data[3];
     
-		for(int pos = 1; pos < 21; pos++){
-		mx[pos] = mx[pos-1] - 1;
-		my[pos] = 200;
-		}
-	}
-
-	else if(strcmp(msg->data.c_str(),"2")==0){
-		
-    my[0] = 179;
-		for(int pos = 1; pos < 21; pos++){
-		mx[pos] = mx[pos-1] - 1;
-		my[pos] = 179;
-    }
-  }
-  pthread_mutex_unlock(&mutex);
-   
 }
 
 
@@ -98,11 +81,9 @@ void SimpleLayer::updateBounds(double origin_x, double origin_y, double origin_y
   
     return;
   
-  
   mark_x_ = origin_x + cos(origin_yaw);
   
   mark_y_ = origin_y + sin(origin_yaw);
-  
   
   *min_x = std::min(*min_x, mark_x_);
   
@@ -112,6 +93,7 @@ void SimpleLayer::updateBounds(double origin_x, double origin_y, double origin_y
   
   *max_y = std::max(*max_y, mark_y_);
   
+
 }  
   
 void SimpleLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, int min_j, int max_i,  int max_j)
@@ -119,12 +101,47 @@ void SimpleLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, int
   if (!enabled_)
   
     return;
-	
-	for(int pos = 0; pos < 21; pos++){
-    
-    master_grid.setCost(mx[pos], my[pos], LETHAL_OBSTACLE);
-		
-	}
+  
+  if(place_1 == 1){
+    for(int posx = 328; posx < 342; posx++){
+      for(int posy = 260; posy < 275; posy++){
+        mx[posx] = posx; 
+        my[posy] = posy;
+        master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
+      }
+	  }
+  }
+
+  if(place_2 == 1){
+    for(int posx = 285; posx < 295; posx++){
+      for(int posy = 215; posy < 220; posy++){
+        mx[posx] = posx; 
+        my[posy] = posy;
+        master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
+      }
+	  }
+  }
+
+  if(place_3 == 1){
+    for(int posx = 312; posx < 325; posx++){
+      for(int posy = 175; posy < 180; posy++){
+        mx[posx] = posx; 
+        my[posy] = posy;
+        master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
+      }
+	  }
+  }
+
+  if(place_4 == 1){
+    for(int posx = 323; posx < 338; posx++){
+      for(int posy = 430; posy < 445; posy++){
+        mx[posx] = posx; 
+        my[posy] = posy;
+        master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
+      }
+	  }
+  }
+	  
     
   
   
