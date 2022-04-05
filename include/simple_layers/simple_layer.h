@@ -11,7 +11,8 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose.h>
 #include <nav_msgs/Odometry.h>
-#include "std_msgs/UInt8MultiArray.h"
+#include "std_msgs/Float64MultiArray.h"
+#include "std_msgs/Float64.h"
 #include <dynamic_reconfigure/DoubleParameter.h>
 #include <dynamic_reconfigure/Reconfigure.h>
 #include <dynamic_reconfigure/Config.h>
@@ -32,7 +33,7 @@ namespace simple_layer_namespace
     	public:  
       		SimpleLayer();
       		
-      		void callback(const std_msgs::UInt8MultiArray::ConstPtr& array);
+      		void callback(const std_msgs::Float64MultiArray::ConstPtr& array);
 		
 			ros::Subscriber sub;
       
@@ -50,7 +51,9 @@ namespace simple_layer_namespace
 
       		double mark_x_, mark_y_;
             
-            unsigned int place_1, place_2, place_3, place_4; 
+            double place_1, place_2, place_3, place_4;
+			
+			unsigned int inix, iniy; 
 		
 			unsigned int mx[384];
   

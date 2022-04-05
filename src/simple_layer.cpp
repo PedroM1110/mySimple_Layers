@@ -7,8 +7,8 @@
 #include <nav_msgs/Odometry.h>
 #include <costmap_2d/layer.h>  
 #include <costmap_2d/layered_costmap.h> 
-#include "std_msgs/UInt8MultiArray.h"
-#include "std_msgs/Int8.h"
+#include "std_msgs/Float64MultiArray.h"
+#include "std_msgs/Float64.h"
 #include <string>
 #include <dynamic_reconfigure/DoubleParameter.h>
 #include <dynamic_reconfigure/Reconfigure.h>
@@ -56,9 +56,9 @@ void SimpleLayer::onInitialize()
   
 
 	
-void SimpleLayer::callback(const std_msgs::UInt8MultiArray::ConstPtr& array){
+void SimpleLayer::callback(const std_msgs::Float64MultiArray::ConstPtr& array){
   
-	ROS_INFO("Zonas: %d, %d, %d, %d", array->data[0],array->data[1],array->data[2],array->data[3]);
+	ROS_INFO("Zonas: %f, %f, %f, %f", array->data[0],array->data[1],array->data[2],array->data[3]);
 
 	place_1 = array->data[0];
   place_2 = array->data[1];
@@ -101,45 +101,186 @@ void SimpleLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, int
   if (!enabled_)
   
     return;
-  
-  if(place_1 == 1){
-    for(int posx = 328; posx < 342; posx++){
-      for(int posy = 260; posy < 275; posy++){
+  //************************************************************************
+  if(place_1 != 0.0){
+    if(place_1 <= 1.2){
+      iniy = 250;
+      if(place_1 == 1.100000) {
+        inix = 325;
+      }
+      else if(place_1 == 1.200000){
+        inix = 335;
+      } 
+      else if(place_1 == 1.300000){
+        inix = 345;
+      } 
+    } 
+    else if((place_1 <= 2.2) && (place_1 > 1.2)){
+      iniy = 260;
+      if(place_1 == 2.100000) {
+        iniy = 325;
+      }
+      else if(place_1 == 2.200000){
+        iniy = 235;
+      } 
+      else if (place_1 == 2.300000){
+        iniy = 245;
+      }
+    } 
+    
+    else if(place_1 >= 3.0){
+      iniy = 270;
+      if(place_1 == 3.100000) {
+        iniy = 325;
+      }
+      else if(place_1 == 3.200000){
+        iniy = 235;
+      } 
+      else if (place_1 == 3.300000){
+        iniy = 245;
+      } 
+    } 
+    for(unsigned int posx = inix; posx <= (inix + 10); posx++){
+      for(unsigned int posy = iniy; posy <= (iniy+10); posy++){
         mx[posx] = posx; 
         my[posy] = posy;
         master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
       }
-	  }
+    }
   }
-
-  if(place_2 == 1){
-    for(int posx = 285; posx < 295; posx++){
-      for(int posy = 215; posy < 220; posy++){
+  //************************************************************************
+  if(place_2 != 0.0){
+    if(place_2 <= 1.2){
+      inix = 275;
+      if(place_2 == 1.100000) {
+        iniy = 215;
+      }
+      if(place_2 == 1.200000){
+        iniy = 205;
+      } 
+    } 
+    else if((place_2 <= 2.2) && (place_2 > 1.2)){
+      inix = 285;
+      if(place_2 == 2.100000) {
+        iniy = 215;
+      }
+      if(place_2 == 2.200000){
+        iniy = 205;
+      } 
+    } 
+    
+    else if(place_2 >= 3.0){
+      inix = 295;
+      if(place_2 == 3.100000) {
+        iniy = 215;
+      }
+      if(place_2 == 3.200000){
+        iniy = 205;
+      } 
+    } 
+    for(unsigned int posx = inix; posx <= (inix + 10); posx++){
+      for(unsigned int posy = iniy; posy <= (iniy+10); posy++){
         mx[posx] = posx; 
         my[posy] = posy;
         master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
       }
-	  }
+    }
+	}
+  //************************************************************************
+
+
+  if(place_3 != 0){
+    if(place_3 <= 1.2){
+      iniy = 175;
+      if(place_3 == 1.100000) {
+        inix = 325;
+      }
+      else if(place_3 == 1.200000){
+        inix = 335;
+      } 
+      else if(place_3 == 1.300000){
+        inix = 345;
+      } 
+    } 
+    else if((place_3 <= 2.2) && (place_3 > 1.2)){
+      iniy = 185;
+      if(place_3 == 2.100000) {
+        iniy = 325;
+      }
+      else if(place_3 == 2.200000){
+        iniy = 235;
+      } 
+      else if (place_3 == 2.300000){
+        iniy = 245;
+      }
+    } 
+    
+    else if(place_3 >= 3.0){
+      iniy = 195;
+      if(place_3 == 3.100000) {
+        iniy = 325;
+      }
+      else if(place_3 == 3.200000){
+        iniy = 235;
+      } 
+      else if (place_3 == 3.300000){
+        iniy = 245;
+      } 
+    } 
+    for(unsigned int posx = inix; posx <= (inix + 10); posx++){
+      for(unsigned int posy = iniy; posy <= (iniy+10); posy++){
+        mx[posx] = posx; 
+        my[posy] = posy;
+        master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
+      }
+    }
   }
-
-  if(place_3 == 1){
-    for(int posx = 312; posx < 325; posx++){
-      for(int posy = 175; posy < 180; posy++){
+  //*********************************************************************************
+  if(place_4 != 0){
+    if(place_4 <= 1.2){
+      iniy = 420;
+      if(place_4 == 1.100000) {
+        inix = 325;
+      }
+      else if(place_4 == 1.200000){
+        inix = 335;
+      } 
+      else if(place_4 == 1.300000){
+        inix = 345;
+      } 
+    } 
+    else if((place_4 <= 2.2) && (place_4 > 1.2)){
+      iniy = 430;
+      if(place_4 == 2.100000) {
+        iniy = 325;
+      }
+      else if(place_4 == 2.200000){
+        iniy = 235;
+      } 
+      else if (place_4 == 2.300000){
+        iniy = 245;
+      }
+    } 
+    
+    else if(place_4 >= 3.0){
+      iniy = 440;
+      if(place_4 == 3.100000) {
+        iniy = 325;
+      }
+      else if(place_4 == 3.200000){
+        iniy = 235;
+      } 
+      else if (place_4 == 3.300000){
+        iniy = 245;
+      } 
+    } 
+    for(unsigned int posx = inix; posx <= (inix + 10); posx++){
+      for(unsigned int posy = iniy; posy <= (iniy+10); posy++){
         mx[posx] = posx; 
         my[posy] = posy;
         master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
       }
-	  }
-  }
-
-  if(place_4 == 1){
-    for(int posx = 323; posx < 338; posx++){
-      for(int posy = 430; posy < 445; posy++){
-        mx[posx] = posx; 
-        my[posy] = posy;
-        master_grid.setCost(mx[posx], my[posy], LETHAL_OBSTACLE);
-      }
-	  }
+    }
   }
 	  
     
