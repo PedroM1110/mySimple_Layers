@@ -51,13 +51,15 @@ namespace simple_layer_namespace
 
       		double mark_x_, mark_y_;
             
-            double place_1, place_2, place_3, place_4;
+            double place_1x, place_1y, place_2x, place_2y,place_3x, place_3y, place_4x, place_4y;
 			
 			unsigned int inix, iniy; 
 		
 			unsigned int mx[384];
   
        		unsigned int my[608];
+
+			unsigned int inflation = 10;
 		
 			pthread_mutex_t mutex; 
       
