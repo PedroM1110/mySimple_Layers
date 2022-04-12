@@ -20,6 +20,8 @@
   
 PLUGINLIB_EXPORT_CLASS(simple_layer_namespace::SimpleLayer, costmap_2d::Layer)//Register plug-in
   
+#define Nothing -999
+
 using costmap_2d::LETHAL_OBSTACLE;  
 using costmap_2d::FREE_SPACE; 
   
@@ -106,7 +108,7 @@ void SimpleLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, int
   
     return;
 //############################################################################################
-  if ((place_1x != 0.0) && (place_1y != 0.0)){
+  if ((place_1x != Nothing) && (place_1y != Nothing)){
     master_grid.worldToMap(place_1x,place_1y,mx[0],my[0]);
     for ( unsigned int aux1 = 0; aux1 < inflation; aux1++){
       for (unsigned int aux2 = 0; aux2 < inflation; aux2++){
@@ -115,7 +117,7 @@ void SimpleLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, int
     }
   }
 //############################################################################################
-  if ((place_2x != 0.0) && (place_2y != 0.0)){
+  if ((place_2x != Nothing) && (place_2y != Nothing)){
     master_grid.worldToMap(place_2x,place_2y,mx[0],my[0]);
     for (unsigned int aux1 = 0; aux1 < inflation; aux1++){
       for (unsigned int aux2 = 0; aux2 < inflation; aux2++){
@@ -124,7 +126,7 @@ void SimpleLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, int
     }
   }
 //############################################################################################
-  if ((place_3x != 0.0) && (place_3y != 0.0)){
+  if ((place_3x != Nothing) && (place_3y != Nothing)){
     master_grid.worldToMap(place_3x,place_3y,mx[0],my[0]);
     for (unsigned int aux1 = 0; aux1 < inflation; aux1++){
       for (unsigned int aux2 = 0; aux2 < inflation; aux2++){
@@ -133,7 +135,7 @@ void SimpleLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, int
     }
   }
 //############################################################################################
-  if ((place_4x != 0.0) && (place_4y != 0.0)){
+  if ((place_4x != Nothing) && (place_4y != Nothing)){
     master_grid.worldToMap(place_4x,place_4y,mx[0],my[0]);
     for (unsigned int aux1 = 0; aux1 < inflation; aux1++){
       for (unsigned int aux2 = 0; aux2 < inflation; aux2++){

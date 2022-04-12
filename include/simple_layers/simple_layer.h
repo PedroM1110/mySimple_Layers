@@ -51,7 +51,7 @@ namespace simple_layer_namespace
 
       		double mark_x_, mark_y_;
             
-            double place_1x, place_1y, place_2x, place_2y,place_3x, place_3y, place_4x, place_4y;
+            double place_1x = -999, place_1y= -999, place_2x= -999, place_2y= -999,place_3x= -999, place_3y= -999, place_4x= -999, place_4y= -999;
 			
 			unsigned int inix, iniy; 
 		
